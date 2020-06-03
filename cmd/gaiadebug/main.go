@@ -107,14 +107,14 @@ func runPubKeyCmd(cmd *cobra.Command, args []string) error {
 		pubkeyBytes, err2 = base64.StdEncoding.DecodeString(pubkeyString)
 		if err2 != nil {
 			var err3 error
-			pubKeyI, err3 = sdk.GetAccPubKeyBech32(pubkeyString)
+			pubKeyI, err3 = sdk.AccAddressFromBech32(pubkeyString)
 			if err3 != nil {
 				var err4 error
-				pubKeyI, err4 = sdk.GetValPubKeyBech32(pubkeyString)
+				pubKeyI, err4 = sdk.ValAddressFromBech32(pubkeyString)
 
 				if err4 != nil {
 					var err5 error
-					pubKeyI, err5 = sdk.GetConsPubKeyBech32(pubkeyString)
+					pubKeyI, err5 = sdk.ConsAddressFromBech32(pubkeyString)
 					if err5 != nil {
 						return fmt.Errorf(`Expected hex, base64, or bech32. Got errors:
 								hex: %v,
@@ -144,16 +144,16 @@ func runPubKeyCmd(cmd *cobra.Command, args []string) error {
 	if err != nil {
 		return err
 	}
-	accPub, err := sdk.Bech32ifyAccPub(pubKey)
+	accPub, err := sdk.Bech32ifyPubKey(sdk.Bech32PubKeyTypeAccPub, pubKey)
 	if err != nil {
 		return err
 	}
-	valPub, err := sdk.Bech32ifyValPub(pubKey)
+	valPub, err := sdk.Bech32ifyPubKey(sdk.Bech32PubKeyTypeValPub, pubKey)
 	if err != nil {
 		return err
 	}
 
-	consenusPub, err := sdk.Bech32ifyConsPub(pubKey)
+	consenusPub, err := sdk.Bech32ifyPubKey(sdk.Bech32PubKeyTypeConsPub, pubKey)
 	if err != nil {
 		return err
 	}
